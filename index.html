@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>عيادة الأسنان الحديثة | حجز مواعيد</title>
+    
+    <!-- --- Favicons & App Icons (All Platforms) --- -->
+    <link rel="icon" type="image/png" sizes="32x32" href="asn.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="asn.png">
+    <link rel="shortcut icon" href="asn.png">
+    <!-- iOS / Safari -->
+    <link rel="apple-touch-icon" sizes="180x180" href="asn.png">
+    <meta name="apple-mobile-web-app-title" content="DentalCare">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <!-- Android / Chrome -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIti52YrYp9iv2Kkg2KfZhNij2LPZhtin2YYiLAogICJzaG9ydF9uYW1lIjogIkRlbnRhbCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImFzbi5wbmciLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiYXNuLnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0sCiAgInRoZW1lX2NvbG9yIjogIiMwMDdBRkYiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNGRkZGRkYiLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiCn0=">
+    <!-- Windows -->
+    <meta name="msapplication-TileColor" content="#007AFF">
+    <meta name="msapplication-TileImage" content="asn.png">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Fonts: Cairo for Corporate/Professional Look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS Variables & Apple Design System --- */
+        :root {
+            /* Light Mode */
+            --bg-primary: #F2F2F7; /* iOS System Gray 6 */
+            --bg-secondary: #FFFFFF;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --text-primary: #000000;
+            --text-secondary: #8E8E93;
+            --accent: #007AFF; /* iOS Blue */
+            --accent-hover: #0056b3;
+            --success: #34C759;
+            --danger: #FF3B30;
+            --warning: #FF9500;
+            --purple: #AF52DE;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* Updated Font to Cairo */
+            --font-main: 'Cairo', 'Inter', -apple-system, sans-serif;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode */
+            --bg-primary: #000000;
+            --bg-secondary: #1C1C1E;
+            --bg-card: rgba(44, 44, 46, 0.9);
+            --text-primary: #FFFFFF;
+            --text-secondary: #98989D;
+            --accent: #0A84FF;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: var(--transition);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        /* --- Components --- */
+        
+        .glass {
+            background: var(--bg-card);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border: var(--glass-border);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Splash Screen */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-secondary);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: all 0.8s cubic-bezier(0.7, 0, 0.3, 1);
+            transform-origin: center center;
+        }
+        
+        .splash-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: scale(1.5);
+            filter: blur(20px);
+        }
+
+        .splash-logo {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            animation: pulse 2s infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* --- Click Animation (Bounce) --- */
+        @keyframes press-animation {
+            0% { transform: scale(1); }
+            40% { transform: scale(0.92); }
+            100% { transform: scale(1); }
+        }
+
+        .animate-press {
+            animation: press-animation 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        }
+
+        /* App Entry Animation Helper Classes */
+        .app-content-wrapper {
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+        }
+
+        body.app-loaded .app-content-wrapper {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            position: relative;
+        }
+
+        .icon-btn {
+            background: rgba(120, 120, 128, 0.08);
+            border: none;
+            cursor: pointer;
+            color: var(--text-primary);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .badge-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--danger);
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            border: 2px solid var(--bg-secondary);
+            display: none;
+        }
+        .badge-dot.active { display: block; }
+
+        /* Notification Popover */
+        .notification-dropdown {
+            position: absolute;
+            top: 55px; /* Below Navbar */
+            left: 20px;
+            width: 320px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: var(--bg-secondary);
+            border-radius: 18px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: var(--glass-border);
+            z-index: 1100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: top left;
+        }
+        
+        .notification-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        @media (max-width: 450px) {
+            .notification-dropdown {
+                width: calc(100vw - 40px);
+                left: 20px;
+                right: 20px;
+            }
+        }
+
+        .notif-header {
+            padding: 15px;
+            border-bottom: 1px solid rgba(128,128,128,0.1);
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notif-list {
+            padding: 0;
+            list-style: none;
+        }
+
+        .notif-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(128,128,128,0.05);
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .notif-item:last-child { border-bottom: none; }
+        .notif-icon {
+            min-width: 32px;
+            height: 32px;
+            background: rgba(0, 122, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+        /* No standard active transform needed as we use the animation class now */
+
+        .btn-secondary {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .btn-sm {
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            width: auto;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        /* Inputs */
+        .input-group { margin-bottom: 16px; position: relative; }
+        .input-label { display: block; margin-bottom: 8px; font-size: 0.95rem; color: var(--text-secondary); font-weight: 600; }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid transparent;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        input:focus, select:focus, textarea:focus {
+            background-color: var(--bg-secondary);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+        }
+
+        /* --- New Date Picker UI (Dropdown Style) --- */
+        .date-picker-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid transparent;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            text-align: right;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        .date-picker-btn:hover { background-color: rgba(0,0,0,0.03); }
+        
+        [data-theme="dark"] .date-picker-btn:hover { background-color: rgba(255,255,255,0.05); }
+
+        .date-picker-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 8px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 12px;
+            border: var(--glass-border);
+            z-index: 50;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+        
+        .date-picker-dropdown.active {
+            display: block;
+            animation: slideInUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .date-grid-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 8px;
+        }
+        
+        .date-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 10px 4px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            user-select: none;
+        }
+        .date-card span { display: block; line-height: 1.2; }
+        .date-card:hover { transform: translateY(-2px); }
+        
+        .date-card.active {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,122,255,0.25);
+            border-color: var(--accent);
+        }
+        .date-card.active span { color: white; }
+        
+        .date-day-name { font-size: 0.75rem; opacity: 0.8; font-weight: 600; }
+        .date-day-num { font-size: 1.2rem; font-weight: 800; }
+        .date-month { font-size: 0.7rem; font-weight: 600; opacity: 0.9; }
+
+        /* iOS Notification Banner */
+        .ios-banner {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 16px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transform: translateY(-150%);
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            border: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+        }
+        .ios-banner.show { transform: translateY(0); }
+        [data-theme="dark"] .ios-banner {
+            background: rgba(44, 44, 46, 0.95);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Loader */
+        .loader-container { display: flex; justify-content: center; padding: 20px; }
+        .apple-loader {
+            width: 24px; height: 24px;
+            border: 3px solid var(--text-secondary);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-in { animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        .view { display: none; }
+        .view.active { display: block; }
+
+        /* Utilities */
+        .text-center { text-align: center; }
+        .text-sm { font-size: 0.85rem; color: var(--text-secondary); }
+        .mt-2 { margin-top: 1rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .hidden { display: none !important; }
+
+        /* --- New Admin Dashboard Styling --- */
+        .dashboard-header {
+            background: var(--bg-secondary);
+            padding: 0 10px 20px 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: var(--transition);
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        
+        .stat-icon-wrapper {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 8px;
+        }
+        
+        .stat-number { font-size: 1.4rem; font-weight: 800; color: var(--text-primary); line-height: 1; margin-bottom: 4px; }
+        .stat-label { font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; }
+
+        /* Quick Actions */
+        .quick-actions { margin-bottom: 24px; }
+        .action-btn-large {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white;
+            padding: 18px;
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: space-between;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+            border: none; cursor: pointer; transition: var(--transition);
+        }
+        
+        /* Booking List Styles (Admin) */
+        .bookings-section {
+            background: transparent;
+            padding: 0;
+            box-shadow: none;
+        }
+        
+        .section-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 12px;
+        }
+        .section-title { font-size: 1.1rem; font-weight: 800; color: var(--text-primary); }
+
+        .booking-item {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 12px;
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+        .booking-item:hover { box-shadow: var(--shadow-md); }
+        
+        /* Status Indicators */
+        .status-indicator {
+            width: 4px; height: 30px; border-radius: 2px;
+            position: absolute; right: 10px; top: 20px;
+        }
+        .status-pending .status-indicator { background: var(--warning); }
+        .status-confirmed .status-indicator { background: var(--success); }
+
+        .booking-info h4 { font-size: 1rem; margin-bottom: 6px; font-weight: 700; }
+        .booking-meta { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; }
+        
+        .booking-actions { display: flex; gap: 8px; }
+        .action-circle-btn {
+            width: 38px; height: 38px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            border: none; cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-call { background: rgba(0, 122, 255, 0.1); color: var(--accent); }
+        .btn-confirm { background: rgba(52, 199, 89, 0.1); color: var(--success); }
+        .btn-delete { background: rgba(255, 59, 48, 0.1); color: var(--danger); }
+        
+        /* Edit Name Input */
+        .edit-name-input {
+            background: var(--bg-primary);
+            border: 1px solid transparent;
+            color: var(--text-primary);
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            width: auto;
+            max-width: 200px;
+        }
+        .edit-name-input:focus { background: var(--bg-secondary); border-color: var(--accent); }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 30px; left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: flex; align-items: center; gap: 10px;
+            z-index: 2200;
+            font-weight: 600; white-space: nowrap;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(128,128,128,0.1);
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+
+    <!-- Splash Screen -->
+    <div id="splashScreen" class="splash-screen glass">
+        <img src="asn.png" alt="شعار العيادة" class="splash-logo" onerror="this.src='https://via.placeholder.com/150?text=Clinic'">
+        <h2 style="font-weight: 800; color: var(--accent);">جاري التحميل...</h2>
+    </div>
+
+    <!-- App Content Wrapper for Entry Animation -->
+    <div class="app-content-wrapper">
+        
+        <!-- Navbar -->
+        <nav class="navbar glass">
+            <div class="logo">
+                <img id="navbarLogo" src="asn.png" alt="Logo" style="height: 35px; width: auto; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"> 
+                <!-- Fallback icon if image fails (hidden by default logic above but good for structure) -->
+                <i data-lucide="smile" color="var(--accent)" style="display:none;"></i>
+                <span id="navClinicName">دنتال كير</span>
+            </div>
+            <div class="nav-actions">
+                <!-- Notification Button with Popover Trigger -->
+                <button class="icon-btn" onclick="toggleNotifications()" id="notifBtn" title="التبليغات">
+                    <i data-lucide="bell"></i>
+                    <span class="badge-dot" id="notifBadge"></span>
+                </button>
+                
+                <button class="icon-btn" id="doctorAccessBtn" title="دخول الطبيب">
+                    <i data-lucide="user-cog"></i>
+                </button>
+                
+                <button class="icon-btn" id="themeToggle" title="تغيير المظهر">
+                    <i data-lucide="moon"></i>
+                </button>
+            </div>
+
+            <!-- Notification Dropdown Popover (NEW) -->
+            <div id="notificationDropdown" class="notification-dropdown">
+                <div class="notif-header">
+                    <span>الإشعارات</span>
+                    <button onclick="toggleNotifications()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer;">
+                        <i data-lucide="x" size="18"></i>
+                    </button>
+                </div>
+                <div id="dropdownNotificationsList" class="notif-list">
+                    <div class="loader-container"><div class="apple-loader"></div></div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- iOS Banner Container -->
+        <div id="iosBanner" class="ios-banner" onclick="toggleNotifications()">
+            <div style="background:var(--accent); padding:10px; border-radius:12px; display:flex;">
+                <i data-lucide="bell-ring" color="white" size="20"></i>
+            </div>
+            <div style="flex:1;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h4 style="font-size:0.9rem; opacity:0.6;">الآن</h4>
+                </div>
+                <h4 id="bannerTitle" style="font-size:0.95rem; margin-bottom:2px;">عنوان التبليغ</h4>
+                <p id="bannerBody" class="text-sm" style="line-height:1.2; color:var(--text-primary);">نص التبليغ هنا</p>
+            </div>
+        </div>
+
+        <div class="container">
+            
+            <!-- View: Home / Booking -->
+            <div id="view-home" class="view active">
+                <div class="card text-center" style="padding: 40px 20px;">
+                    <h1 style="margin-bottom: 10px;">ابتسامتك أولويتنا</h1>
+                    <p class="text-sm" style="margin-bottom: 30px;">احجز موعدك الآن بكل سهولة في عيادتنا المتخصصة.</p>
+                    
+                    <div class="input-group">
+                        <label class="input-label">ما هو اسمك الكريم؟</label>
+                        <input type="text" id="patientName" placeholder="الاسم الثلاثي">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">رقم الهاتف</label>
+                        <input type="tel" id="patientPhone" placeholder="07...">
+                    </div>
+
+                    <!-- Custom Date Picker Section (Dropdown Style) -->
+                    <div class="input-group">
+                        <label class="input-label">اختر التاريخ</label>
+                        
+                        <!-- Trigger Button -->
+                        <button id="datePickerBtn" class="date-picker-btn" onclick="toggleDatePicker()">
+                            <span id="selectedDateText">اختر اليوم المناسب</span>
+                            <i data-lucide="calendar" size="18" color="var(--text-secondary)"></i>
+                        </button>
+
+                        <!-- Dropdown Container -->
+                        <div id="datePickerDropdown" class="date-picker-dropdown">
+                            <div id="datePickerContainer" class="date-grid-wrapper">
+                                <!-- Dates Injected JS -->
+                            </div>
+                        </div>
+                        
+                        <input type="hidden" id="bookDate"> <!-- Stores YYYY-MM-DD -->
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">نوع الخدمة</label>
+                        <select id="serviceType">
+                            <option value="">اختر نوع الخدمة</option>
+                            <option value="استشارة">كشف / استشارة</option>
+                            <option value="حشوة">حشوة تجميلية</option>
+                            <option value="قلع">قلع سن</option>
+                            <option value="ابتسامة">ابتسامة هوليود</option>
+                            <option value="تبييض">تبييض أسنان</option>
+                            <option value="زراعة">زراعة أسنان</option>
+                            <option value="تقويم">تقويم أسنان</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">اختر الوقت</label>
+                        <select id="bookTime">
+                            <option value="">اختر الوقت المناسب</option>
+                            <option value="10:00">10:00 صباحاً</option>
+                            <option value="11:00">11:00 صباحاً</option>
+                            <option value="12:00">12:00 ظهراً</option>
+                            <option value="13:00">01:00 ظهراً</option>
+                            <option value="14:00">02:00 ظهراً</option>
+                            <option value="15:00">03:00 عصراً</option>
+                            <option value="16:00">04:00 عصراً</option>
+                            <option value="17:00">05:00 عصراً</option>
+                            <option value="18:00">06:00 مساءً</option>
+                            <option value="19:00">07:00 مساءً</option>
+                            <option value="20:00">08:00 مساءً</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="submitBooking()">
+                        <span>تأكيد الحجز</span>
+                        <i data-lucide="calendar-check"></i>
+                    </button>
+                </div>
+
+                <!-- Clinic Info Card (For Patients) -->
+                <div class="card" style="margin-top: 20px; border-right: 4px solid var(--accent);">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">معلومات التواصل</h3>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <div style="display:flex; align-items:center; gap:10px; color:var(--text-secondary);">
+                            <i data-lucide="map-pin" size="18"></i>
+                            <span id="displayAddress">العنوان غير محدد</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px; color:var(--text-secondary);">
+                            <i data-lucide="phone" size="18"></i>
+                            <span id="displayPhone">الرقم غير محدد</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View: Doctor Login -->
+            <div id="view-login" class="view">
+                <div class="card">
+                    <h2 class="text-center mb-2">تسجيل دخول الطبيب</h2>
+                    <div class="input-group">
+                        <label class="input-label">اسم المستخدم</label>
+                        <input type="text" id="docUsername">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">كلمة المرور</label>
+                        <input type="password" id="docPassword">
+                    </div>
+                    <button class="btn btn-primary" onclick="doctorLogin()">دخول</button>
+                    <button class="btn btn-secondary mt-2" onclick="showView('view-home')">عودة للرئيسية</button>
+                </div>
+            </div>
+
+            <!-- View: Doctor Dashboard (Redesigned) -->
+            <div id="view-dashboard" class="view">
+                <!-- Header -->
+                <div class="dashboard-header">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <h2 id="doctorNameDisplay" style="margin: 0; font-size: 1.6rem;">د. علي</h2>
+                            <button onclick="enableNameEdit()" title="تعديل الاسم" style="background: none; border: none; color: var(--text-secondary); cursor: pointer;">
+                                <i data-lucide="edit-3" size="16"></i>
+                            </button>
+                        </div>
+                        <input type="text" id="doctorNameInput" class="edit-name-input hidden" onblur="saveDoctorName()" onkeydown="if(event.key === 'Enter') saveDoctorName()">
+                        <p style="opacity: 0.7; margin-top: 4px; font-size: 0.9rem;">أهلاً بك في لوحة التحكم</p>
+                    </div>
+                    <button onclick="logout()" class="icon-btn" style="background: rgba(255,59,48,0.1); color: var(--danger);">
+                        <i data-lucide="log-out"></i>
+                    </button>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <!-- Total -->
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper" style="background: rgba(0, 122, 255, 0.1); color: var(--accent);">
+                            <i data-lucide="users" size="18"></i>
+                        </div>
+                        <div class="stat-number" id="statTotal">0</div>
+                        <div class="stat-label">المواعيد</div>
+                    </div>
+                    <!-- Pending -->
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper" style="background: rgba(255, 149, 0, 0.1); color: var(--warning);">
+                            <i data-lucide="clock" size="18"></i>
+                        </div>
+                        <div class="stat-number" id="statPending">0</div>
+                        <div class="stat-label">انتظار</div>
+                    </div>
+                    <!-- Confirmed -->
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper" style="background: rgba(52, 199, 89, 0.1); color: var(--success);">
+                            <i data-lucide="check-circle" size="18"></i>
+                        </div>
+                        <div class="stat-number" id="statConfirmed">0</div>
+                        <div class="stat-label">مؤكدة</div>
+                    </div>
+                </div>
+
+                <!-- Clinic Settings Section (New) -->
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 15px;">إعدادات العيادة العامة</h3>
+                    <div class="input-group">
+                        <label class="input-label">اسم العيادة (يظهر في الأعلى)</label>
+                        <input type="text" id="settingClinicName" placeholder="مثال: دنتال كير">
+                    </div>
+                    <!-- New Logo Upload Section -->
+                    <div class="input-group">
+                        <label class="input-label">شعار العيادة (يظهر في الأعلى)</label>
+                        <div style="display:flex; gap:10px;">
+                            <input type="file" id="logoUploader" accept="image/*" style="display:none;" onchange="uploadLogo(this)">
+                            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('logoUploader').click()">
+                                <i data-lucide="upload" size="16"></i> رفع شعار جديد
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="resetLogo()" style="color:var(--danger); border-color:var(--danger);">
+                                <i data-lucide="rotate-ccw" size="16"></i> استعادة الافتراضي
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div class="input-group">
+                            <label class="input-label">رقم الهاتف (للمراجعين)</label>
+                            <input type="text" id="settingClinicPhone" placeholder="07...">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">العنوان</label>
+                            <input type="text" id="settingClinicAddress" placeholder="المدينة - الشارع">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="saveClinicSettings()">حفظ التعديلات</button>
+                </div>
+
+                <!-- Quick Action -->
+                <div class="quick-actions">
+                    <button class="action-btn-large" onclick="document.getElementById('notifyModal').classList.remove('hidden')">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <div style="background:rgba(255,255,255,0.2); padding:8px; border-radius:10px;">
+                                <i data-lucide="send" size="20"></i>
+                            </div>
+                            <span>نشر تبليغ جديد للمراجعين</span>
+                        </div>
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                </div>
+
+                <!-- Booking List Section -->
+                <div class="bookings-section">
+                    <div class="section-header">
+                        <div class="section-title">آخر الحجوزات</div>
+                    </div>
+                    <div id="dashboardBookingsList">
+                        <div class="loader-container"><div class="apple-loader"></div></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div> <!-- End of App Content Wrapper -->
+
+    <!-- Doctor Publish Modal -->
+    <div id="notifyModal" class="glass hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 2200; display: flex; align-items: center; justify-content: center; padding: 20px;">
+        <div class="card" style="width: 100%; max-width: 400px; box-shadow: var(--shadow-md);">
+            <h3>نشر تبليغ أو عرض</h3>
+            <div class="input-group mt-2">
+                <label class="input-label">العنوان</label>
+                <input type="text" id="notifTitle" placeholder="مثال: خصم خاص">
+            </div>
+            <div class="input-group">
+                <label class="input-label">الرسالة</label>
+                <textarea id="notifBody" rows="3" placeholder="تفاصيل التبليغ..."></textarea>
+            </div>
+            <div class="action-grid">
+                <button class="btn btn-secondary" onclick="document.getElementById('notifyModal').classList.add('hidden')">إلغاء</button>
+                <button class="btn btn-primary" onclick="sendNotification()">نشر</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <i data-lucide="check-circle" color="var(--success)"></i>
+        <span id="toastMessage">تمت العملية بنجاح</span>
+    </div>
+
+    <!-- Firebase Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, updateDoc, doc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD6MRZ7d7J1333erYoBrUGqocJNdGNjB7w",
+            authDomain: "neew-aec2b.firebaseapp.com",
+            databaseURL: "https://neew-aec2b-default-rtdb.firebaseio.com",
+            projectId: "neew-aec2b",
+            storageBucket: "neew-aec2b.firebasestorage.app",
+            messagingSenderId: "70112873200",
+            appId: "1:70112873200:web:b8ef2b3863be6f1bf39035"
+        };
+
+        // Initialize
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // App State
+        let isDoctor = false; 
+        
+        // Define Global Helpers
+        window.showToast = (msg, type = 'success') => {
+            const toast = document.getElementById('toast');
+            const iconName = type === 'success' ? 'check-circle' : 'alert-circle';
+            const iconColor = type === 'success' ? 'var(--success)' : 'var(--danger)';
+            
+            toast.innerHTML = `
+                <i data-lucide="${iconName}" color="${iconColor}"></i>
+                <span id="toastMessage">${msg}</span>
+            `;
+
+            lucide.createIcons();
+            toast.classList.add('show');
+            if (type === 'success') playSuccessSound();
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+
+        window.showView = (viewId) => {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo(0,0);
+        };
+
+        // --- Notification UI Helpers (UPDATED FOR POPOVER) ---
+        window.toggleNotifications = () => {
+            const dropdown = document.getElementById('notificationDropdown');
+            const btn = document.getElementById('notifBtn');
+            const badge = document.getElementById('notifBadge');
+            
+            dropdown.classList.toggle('active');
+            document.getElementById('iosBanner').classList.remove('show');
+            
+            if(dropdown.classList.contains('active')) {
+                badge.classList.remove('active');
+            }
+        };
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('notificationDropdown');
+            const btn = document.getElementById('notifBtn');
+            if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+            
+            // Close date picker dropdown if clicked outside
+            const dateDropdown = document.getElementById('datePickerDropdown');
+            const dateBtn = document.getElementById('datePickerBtn');
+            if (dateDropdown && dateBtn && !dateDropdown.contains(e.target) && !dateBtn.contains(e.target)) {
+                dateDropdown.classList.remove('active');
+            }
+        });
+
+        window.showIOSBanner = (data) => {
+            const banner = document.getElementById('iosBanner');
+            document.getElementById('bannerTitle').innerText = data.title;
+            document.getElementById('bannerBody').innerText = data.body;
+            
+            banner.classList.add('show');
+            playNotificationSound();
+            lucide.createIcons();
+
+            setTimeout(() => { banner.classList.remove('show'); }, 5000);
+        };
+
+        // --- Clinic Settings Logic (LocalStorage) ---
+        window.saveClinicSettings = () => {
+            const name = document.getElementById('settingClinicName').value;
+            const phone = document.getElementById('settingClinicPhone').value;
+            const address = document.getElementById('settingClinicAddress').value;
+
+            if(name) {
+                localStorage.setItem('clinicName', name);
+                document.getElementById('navClinicName').innerText = name;
+            }
+            if(phone) {
+                localStorage.setItem('clinicPhone', phone);
+                document.getElementById('displayPhone').innerText = phone;
+            }
+            if(address) {
+                localStorage.setItem('clinicAddress', address);
+                document.getElementById('displayAddress').innerText = address;
+            }
+            
+            showToast("تم حفظ الإعدادات بنجاح");
+        };
+
+        // NEW: Logo Upload Logic
+        window.uploadLogo = (input) => {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const dataUrl = e.target.result;
+                    // Save to local storage
+                    localStorage.setItem('clinicLogo', dataUrl);
+                    // Update UI immediately
+                    document.getElementById('navbarLogo').src = dataUrl;
+                    showToast("تم تحديث الشعار بنجاح");
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
+
+        window.resetLogo = () => {
+            localStorage.removeItem('clinicLogo');
+            document.getElementById('navbarLogo').src = 'asn.png';
+            showToast("تم استعادة الشعار الافتراضي");
+        };
+
+        function loadClinicSettings() {
+            const name = localStorage.getItem('clinicName');
+            const phone = localStorage.getItem('clinicPhone');
+            const address = localStorage.getItem('clinicAddress');
+            const logo = localStorage.getItem('clinicLogo');
+
+            if(name) {
+                document.getElementById('navClinicName').innerText = name;
+                document.getElementById('settingClinicName').value = name;
+            }
+            if(phone) {
+                document.getElementById('displayPhone').innerText = phone;
+                document.getElementById('settingClinicPhone').value = phone;
+            }
+            if(address) {
+                document.getElementById('displayAddress').innerText = address;
+                document.getElementById('settingClinicAddress').value = address;
+            }
+            if(logo) {
+                document.getElementById('navbarLogo').src = logo;
+            }
+        }
+
+        // --- Doctor Name Customization Logic ---
+        window.enableNameEdit = () => {
+            const display = document.getElementById('doctorNameDisplay');
+            const input = document.getElementById('doctorNameInput');
+            
+            input.value = display.innerText;
+            display.parentElement.classList.add('hidden'); // hide h2 container
+            input.classList.remove('hidden');
+            input.focus();
+        };
+
+        window.saveDoctorName = () => {
+            const display = document.getElementById('doctorNameDisplay');
+            const input = document.getElementById('doctorNameInput');
+            const newName = input.value.trim() || "د. علي"; // Default fallback
+            
+            localStorage.setItem('customDoctorName', newName);
+            display.innerHTML = `${newName}`; // Icon is separate now in new design
+            
+            input.classList.add('hidden');
+            display.parentElement.classList.remove('hidden');
+        };
+
+        function loadSavedDoctorName() {
+            const saved = localStorage.getItem('customDoctorName');
+            if(saved) {
+                const display = document.getElementById('doctorNameDisplay');
+                display.innerText = saved;
+            }
+        }
+
+        // --- Sound System (Real Files) ---
+        const clickSound = new Audio('click.wav');
+        const notifSound = new Audio('not.wav');
+        const introSound = new Audio('intro.wav');
+
+        window.playClickSound = () => {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(e => { console.log("Audio play failed", e); });
+        };
+
+        window.playNotificationSound = () => {
+            notifSound.currentTime = 0;
+            notifSound.play().catch(e => { console.log("Audio play failed", e); });
+        };
+        
+        window.playSuccessSound = () => {
+            window.playNotificationSound();
+        };
+
+        // Attach Click Animation & Sound to all buttons/interactions
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('button') || e.target.closest('a') || e.target.closest('.date-card') || e.target.closest('.action-btn-large') || e.target.closest('.icon-btn');
+            
+            if(target) {
+                playClickSound();
+                
+                // Add animation class
+                target.classList.remove('animate-press'); 
+                void target.offsetWidth; 
+                target.classList.add('animate-press');
+                
+                // Cleanup
+                setTimeout(() => {
+                    target.classList.remove('animate-press');
+                }, 300);
+            }
+        });
+
+        // --- Splash Screen & Intro Logic ---
+        function initSplashScreen() {
+            const splash = document.getElementById('splashScreen');
+            
+            // Try playing intro sound
+            introSound.volume = 0.5;
+            introSound.play().catch(e => {
+                const playOnInteraction = () => {
+                    introSound.play();
+                    document.removeEventListener('click', playOnInteraction);
+                };
+                document.addEventListener('click', playOnInteraction);
+            });
+
+            // Trigger Animation after delay
+            setTimeout(() => {
+                splash.classList.add('hidden'); // Exit Splash
+                document.body.classList.add('app-loaded'); // Enter App
+            }, 2500); // 2.5 seconds display
+        }
+
+        // --- Date Picker Logic (Dropdown Style) ---
+        window.toggleDatePicker = () => {
+            document.getElementById('datePickerDropdown').classList.toggle('active');
+        };
+
+        function initDatePicker() {
+            const container = document.getElementById('datePickerContainer');
+            const hiddenInput = document.getElementById('bookDate');
+            const btnText = document.getElementById('selectedDateText');
+            
+            const today = new Date();
+            container.innerHTML = '';
+
+            for(let i=0; i<30; i++) {
+                const d = new Date(today);
+                d.setDate(today.getDate() + i);
+                
+                const dayName = new Intl.DateTimeFormat('ar-EG', { weekday: 'short' }).format(d);
+                const dayNum = d.getDate();
+                const monthName = new Intl.DateTimeFormat('ar-EG', { month: 'short' }).format(d);
+                
+                const year = 2026;
+                const month = (d.getMonth() + 1).toString().padStart(2, '0');
+                const day = d.getDate().toString().padStart(2, '0');
+                const value = `${year}-${month}-${day}`;
+                const displayStr = `${dayName}، ${dayNum} ${monthName}`;
+
+                const el = document.createElement('div');
+                el.className = 'date-card';
+                
+                if(i === 0) {
+                     el.classList.add('active');
+                     hiddenInput.value = value;
+                     btnText.innerText = displayStr;
+                }
+
+                el.innerHTML = `
+                    <span class="date-day-name">${dayName}</span>
+                    <span class="date-day-num">${dayNum}</span>
+                    <span class="date-month">${monthName}</span>
+                `;
+                
+                el.onclick = () => {
+                    document.querySelectorAll('.date-card').forEach(c => c.classList.remove('active'));
+                    el.classList.add('active');
+                    hiddenInput.value = value;
+                    btnText.innerText = displayStr;
+                    document.getElementById('datePickerDropdown').classList.remove('active');
+                };
+                
+                container.appendChild(el);
+            }
+        }
+
+        // --- Auth & Startup ---
+        signInAnonymously(auth).then(() => {
+            console.log("Connected");
+            setupRealtimeListeners();
+            loadSavedDoctorName();
+            loadClinicSettings(); 
+            initDatePicker(); 
+            initSplashScreen(); 
+        }).catch((error) => console.error(error));
+
+        // --- Booking Logic ---
+        window.submitBooking = async () => {
+            const name = document.getElementById('patientName').value;
+            const phone = document.getElementById('patientPhone').value;
+            const date = document.getElementById('bookDate').value;
+            const time = document.getElementById('bookTime').value;
+            const service = document.getElementById('serviceType').value;
+
+            if (!name || !phone || !date || !time || !service) {
+                showToast("يرجى ملء جميع الحقول", "error");
+                return;
+            }
+
+            const btn = document.querySelector('#view-home .btn-primary');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="apple-loader" style="width:20px; height:20px; border-color:white; border-top-color:transparent;"></div>';
+            btn.disabled = true;
+
+            try {
+                const bookingsRef = collection(db, 'artifacts', 'dental_app', 'public', 'data', 'bookings');
+                await addDoc(bookingsRef, {
+                    name, phone, date, time, service,
+                    status: 'pending',
+                    createdAt: serverTimestamp()
+                });
+                showToast("تم إرسال طلب الحجز بنجاح!");
+                document.getElementById('patientName').value = '';
+                document.getElementById('patientPhone').value = '';
+                document.getElementById('serviceType').value = '';
+                initDatePicker();
+            } catch (e) {
+                showToast("حدث خطأ أثناء الحجز", "error");
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                lucide.createIcons();
+            }
+        };
+
+        // --- Doctor Logic ---
+        window.doctorLogin = () => {
+            const u = document.getElementById('docUsername').value;
+            const p = document.getElementById('docPassword').value;
+
+            if (u === 'alikuka' && p === '2002') {
+                isDoctor = true;
+                localStorage.setItem('isDoctor', 'true');
+                showToast("تم تسجيل الدخول بنجاح");
+                showView('view-dashboard');
+                loadDoctorData();
+            } else {
+                showToast("بيانات الدخول غير صحيحة", "error");
+            }
+        };
+        
+        window.logout = () => {
+            isDoctor = false;
+            localStorage.removeItem('isDoctor');
+            showView('view-home');
+        };
+
+        function loadDoctorData() {
+            const bookingsRef = collection(db, 'artifacts', 'dental_app', 'public', 'data', 'bookings');
+            const q = query(bookingsRef, orderBy('createdAt', 'desc'));
+
+            onSnapshot(q, (snapshot) => {
+                const list = document.getElementById('dashboardBookingsList');
+                
+                let total = snapshot.size;
+                let pending = 0;
+                let confirmed = 0;
+
+                list.innerHTML = '';
+
+                if (snapshot.empty) {
+                    list.innerHTML = '<p class="text-center text-sm" style="padding:20px;">لا توجد حجوزات جديدة</p>';
+                }
+
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    const id = docSnap.id;
+                    const isConfirmed = data.status === 'confirmed';
+                    
+                    if(isConfirmed) confirmed++;
+                    else pending++;
+
+                    const statusClass = isConfirmed ? 'status-confirmed' : 'status-pending';
+
+                    const item = document.createElement('div');
+                    item.className = `booking-item ${statusClass}`;
+                    item.innerHTML = `
+                        <div class="status-indicator"></div>
+                        <div class="booking-info">
+                            <h4>${data.name} <span style="font-size:0.8rem; font-weight:normal; opacity:0.8;">(${data.service || 'عام'})</span></h4>
+                            <div class="booking-meta">
+                                <span><i data-lucide="calendar" size="14" style="vertical-align:text-bottom"></i> ${data.date}</span>
+                                <span><i data-lucide="clock" size="14" style="vertical-align:text-bottom"></i> ${data.time}</span>
+                            </div>
+                        </div>
+                        <div class="booking-actions">
+                            <a href="tel:${data.phone}" class="action-circle-btn btn-call" title="اتصال">
+                                <i data-lucide="phone" size="18"></i>
+                            </a>
+                            ${!isConfirmed ? 
+                                `<button onclick="updateBooking('${id}', 'confirmed')" class="action-circle-btn btn-confirm" title="تأكيد">
+                                    <i data-lucide="check" size="20"></i>
+                                </button>` : ''
+                            }
+                            <button onclick="deleteBooking('${id}')" class="action-circle-btn btn-delete" title="حذف">
+                                <i data-lucide="trash-2" size="18"></i>
+                            </button>
+                        </div>
+                    `;
+                    list.appendChild(item);
+                });
+
+                document.getElementById('statTotal').innerText = total;
+                document.getElementById('statPending').innerText = pending;
+                document.getElementById('statConfirmed').innerText = confirmed;
+
+                lucide.createIcons();
+            });
+        }
+
+        window.updateBooking = async (id, status) => {
+            const ref = doc(db, 'artifacts', 'dental_app', 'public', 'data', 'bookings', id);
+            await updateDoc(ref, { status });
+            showToast("تم تأكيد الحجز");
+        };
+
+        window.deleteBooking = async (id) => {
+            if(confirm('هل أنت متأكد من حذف هذا الحجز؟')) {
+                const ref = doc(db, 'artifacts', 'dental_app', 'public', 'data', 'bookings', id);
+                await deleteDoc(ref);
+                showToast("تم حذف الحجز");
+            }
+        };
+
+        // --- Notifications Logic ---
+        window.sendNotification = async () => {
+            const title = document.getElementById('notifTitle').value;
+            const body = document.getElementById('notifBody').value;
+            
+            if(!title || !body) return;
+
+            const notifRef = collection(db, 'artifacts', 'dental_app', 'public', 'data', 'notifications');
+            await addDoc(notifRef, {
+                title, body,
+                createdAt: serverTimestamp()
+            });
+
+            document.getElementById('notifyModal').classList.add('hidden');
+            showToast("تم نشر التبليغ");
+            document.getElementById('notifTitle').value = '';
+            document.getElementById('notifBody').value = '';
+        };
+
+        function setupRealtimeListeners() {
+            let isInitialLoad = true;
+            const notifRef = collection(db, 'artifacts', 'dental_app', 'public', 'data', 'notifications');
+            const q = query(notifRef, orderBy('createdAt', 'desc'));
+
+            onSnapshot(q, (snapshot) => {
+                const list = document.getElementById('dropdownNotificationsList');
+                list.innerHTML = '';
+                if(snapshot.empty) {
+                    list.innerHTML = '<div class="text-sm text-center" style="padding:20px;">لا توجد تبليغات حالياً</div>';
+                } else {
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        const el = document.createElement('div');
+                        el.className = 'notif-item';
+                        el.innerHTML = `
+                            <div class="notif-icon"><i data-lucide="bell" size="16"></i></div>
+                            <div>
+                                <h4 style="font-size:0.9rem; margin-bottom:2px;">${data.title}</h4>
+                                <p class="text-sm" style="color:var(--text-secondary); line-height:1.3;">${data.body}</p>
+                            </div>
+                        `;
+                        list.appendChild(el);
+                    });
+                }
+
+                if (!isInitialLoad) {
+                    snapshot.docChanges().forEach(change => {
+                        if (change.type === 'added') {
+                            showIOSBanner(change.doc.data());
+                            document.getElementById('notifBadge').classList.add('active');
+                        }
+                    });
+                }
+                isInitialLoad = false;
+                lucide.createIcons();
+            });
+        }
+
+        // --- Theme ---
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.body.getAttribute('data-theme');
+            const newTheme = current === 'light' ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            const icon = theme === 'light' ? 'moon' : 'sun';
+            themeToggle.innerHTML = `<i data-lucide="${icon}"></i>`;
+            lucide.createIcons();
+        }
+
+        document.getElementById('doctorAccessBtn').addEventListener('click', () => {
+            if(isDoctor) showView('view-dashboard');
+            else showView('view-login');
+        });
+
+        lucide.createIcons();
+        if(localStorage.getItem('isDoctor') === 'true') {
+            isDoctor = true;
+            loadDoctorData();
+        }
+
+    </script>
+</body>
+</html>
