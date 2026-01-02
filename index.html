@@ -6,19 +6,19 @@
     <title>عيادة الأسنان الحديثة | حجز مواعيد</title>
     
     <!-- --- Favicons & App Icons (All Platforms) --- -->
-    <link rel="icon" type="image/png" sizes="32x32" href="asn.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="asn.png">
-    <link rel="shortcut icon" href="asn.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="asn.PNG">
+    <link rel="icon" type="image/png" sizes="16x16" href="asn.PNG">
+    <link rel="shortcut icon" href="asn.PNG">
     <!-- iOS / Safari -->
-    <link rel="apple-touch-icon" sizes="180x180" href="asn.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="asn.PNG">
     <meta name="apple-mobile-web-app-title" content="DentalCare">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <!-- Android / Chrome -->
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIti52YrYp9iv2Kkg2KfZhNij2LPZhtin2YYiLAogICJzaG9ydF9uYW1lIjogIkRlbnRhbCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImFzbi5wbmciLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiYXNuLnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0sCiAgInRoZW1lX2NvbG9yIjogIiMwMDdBRkYiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNGRkZGRkYiLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiCn0=">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIti52YrYp9iv2Kkg2KfZhNij2LPZhtin2YYiLAogICJzaG9ydF9uYW1lIjogIkRlbnRhbCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImFzbi5QTkciLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiYXNuLlBORyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0sCiAgInRoZW1lX2NvbG9yIjogIiMwMDdBRkYiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNGRkZGRkYiLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiCn0=">
     <!-- Windows -->
     <meta name="msapplication-TileColor" content="#007AFF">
-    <meta name="msapplication-TileImage" content="asn.png">
+    <meta name="msapplication-TileImage" content="asn.PNG">
 
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -147,6 +147,16 @@
 
         .animate-press {
             animation: press-animation 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        }
+
+        @keyframes number-pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .number-pop-anim {
+            animation: number-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         /* App Entry Animation Helper Classes */
@@ -306,8 +316,7 @@
             color: white;
             box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
         }
-        /* No standard active transform needed as we use the animation class now */
-
+        
         .btn-secondary {
             background-color: var(--bg-secondary);
             color: var(--text-primary);
@@ -543,7 +552,8 @@
             box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
             border: none; cursor: pointer; transition: var(--transition);
         }
-        
+        .action-btn-large:active { transform: scale(0.98); }
+
         /* Booking List Styles (Admin) */
         .bookings-section {
             background: transparent;
@@ -631,7 +641,7 @@
 
     <!-- Splash Screen -->
     <div id="splashScreen" class="splash-screen glass">
-        <img src="asn.png" alt="شعار العيادة" class="splash-logo" onerror="this.src='https://via.placeholder.com/150?text=Clinic'">
+        <img src="asn.PNG" alt="شعار العيادة" class="splash-logo" onerror="this.src='https://via.placeholder.com/150?text=Clinic'">
         <h2 style="font-weight: 800; color: var(--accent);">جاري التحميل...</h2>
     </div>
 
@@ -641,7 +651,7 @@
         <!-- Navbar -->
         <nav class="navbar glass">
             <div class="logo">
-                <img id="navbarLogo" src="asn.png" alt="Logo" style="height: 35px; width: auto; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"> 
+                <img id="navbarLogo" src="asn.PNG" alt="Logo" style="height: 35px; width: auto; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"> 
                 <!-- Fallback icon if image fails (hidden by default logic above but good for structure) -->
                 <i data-lucide="smile" color="var(--accent)" style="display:none;"></i>
                 <span id="navClinicName">دنتال كير</span>
@@ -698,6 +708,11 @@
                     <h1 style="margin-bottom: 10px;">ابتسامتك أولويتنا</h1>
                     <p class="text-sm" style="margin-bottom: 30px;">احجز موعدك الآن بكل سهولة في عيادتنا المتخصصة.</p>
                     
+                    <button class="btn btn-secondary" onclick="showView('view-queue')" style="margin-bottom: 24px; border-color: var(--accent); color: var(--accent);">
+                        <i data-lucide="monitor"></i>
+                        <span>شاشة الدور (الانتظار بالعيادة)</span>
+                    </button>
+
                     <div class="input-group">
                         <label class="input-label">ما هو اسمك الكريم؟</label>
                         <input type="text" id="patientName" placeholder="الاسم الثلاثي">
@@ -782,6 +797,20 @@
                 </div>
             </div>
 
+            <!-- View: Queue Display (New) -->
+            <div id="view-queue" class="view">
+                <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:70vh; text-align:center;">
+                    <div class="card" style="width: 100%; padding: 40px 20px; box-shadow: var(--shadow-md);">
+                        <div style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 10px; font-weight: 600;">الدور الحالي</div>
+                        <div id="bigQueueNumber" style="font-size: 8rem; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 20px; font-family: 'Inter', sans-serif;">--</div>
+                        <h2 id="queueMessage" style="font-size: 1.4rem; font-weight: 700; color: var(--text-primary); opacity: 0; transition: opacity 0.5s; min-height: 1.5em;"></h2>
+                    </div>
+                    <button class="btn btn-secondary" onclick="showView('view-home')" style="margin-top: 30px; width: auto; padding: 12px 24px;">
+                        <i data-lucide="arrow-right"></i> عودة للرئيسية
+                    </button>
+                </div>
+            </div>
+
             <!-- View: Doctor Login -->
             <div id="view-login" class="view">
                 <div class="card">
@@ -843,6 +872,20 @@
                         </div>
                         <div class="stat-number" id="statConfirmed">0</div>
                         <div class="stat-label">مؤكدة</div>
+                    </div>
+                </div>
+
+                <!-- Queue Management Card (New) -->
+                <div class="card" style="border-right: 4px solid var(--purple);">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 15px;">إدارة الدور (الانتظار)</h3>
+                    <div class="input-group">
+                        <label class="input-label">رقم المريض الحالي</label>
+                        <div style="display:flex; gap:10px;">
+                            <input type="number" id="queueNumberInput" placeholder="رقم الدور" style="font-size: 1.2rem; font-weight: bold;">
+                            <button class="btn btn-primary" onclick="updateQueueNumber()" style="background-color: var(--purple);">
+                                <i data-lucide="megaphone"></i> نداء
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -936,7 +979,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, updateDoc, doc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, updateDoc, doc, deleteDoc, serverTimestamp, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // Configuration
         const firebaseConfig = {
@@ -1062,7 +1105,7 @@
 
         window.resetLogo = () => {
             localStorage.removeItem('clinicLogo');
-            document.getElementById('navbarLogo').src = 'asn.png';
+            document.getElementById('navbarLogo').src = 'asn.PNG';
             showToast("تم استعادة الشعار الافتراضي");
         };
 
@@ -1123,7 +1166,8 @@
         // --- Sound System (Real Files) ---
         const clickSound = new Audio('click.wav');
         const notifSound = new Audio('not.wav');
-        const introSound = new Audio('intro.wav');
+        
+        // Removed introSound logic as requested
 
         window.playClickSound = () => {
             clickSound.currentTime = 0;
@@ -1162,17 +1206,7 @@
         function initSplashScreen() {
             const splash = document.getElementById('splashScreen');
             
-            // Try playing intro sound
-            introSound.volume = 0.5;
-            introSound.play().catch(e => {
-                const playOnInteraction = () => {
-                    introSound.play();
-                    document.removeEventListener('click', playOnInteraction);
-                };
-                document.addEventListener('click', playOnInteraction);
-            });
-
-            // Trigger Animation after delay
+            // Just Animation, no sound
             setTimeout(() => {
                 splash.classList.add('hidden'); // Exit Splash
                 document.body.classList.add('app-loaded'); // Enter App
@@ -1237,6 +1271,7 @@
         signInAnonymously(auth).then(() => {
             console.log("Connected");
             setupRealtimeListeners();
+            setupQueueListener(); // Start listening for queue updates
             loadSavedDoctorName();
             loadClinicSettings(); 
             initDatePicker(); 
@@ -1281,6 +1316,45 @@
                 lucide.createIcons();
             }
         };
+
+        // --- Queue System Logic ---
+        window.updateQueueNumber = async () => {
+            const num = document.getElementById('queueNumberInput').value;
+            if(!num) return;
+            
+            const statusRef = doc(db, 'artifacts', 'dental_app', 'public', 'data', 'status', 'queue');
+            await setDoc(statusRef, { currentNumber: num }, { merge: true });
+            showToast(`تم النداء على المريض رقم ${num}`);
+        };
+
+        function setupQueueListener() {
+            const statusRef = doc(db, 'artifacts', 'dental_app', 'public', 'data', 'status', 'queue');
+            let isFirstLoad = true;
+
+            onSnapshot(statusRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const num = docSnap.data().currentNumber;
+                    const display = document.getElementById('bigQueueNumber');
+                    const message = document.getElementById('queueMessage');
+                    
+                    if(display.innerText !== num) {
+                        display.innerText = num;
+                        display.classList.remove('number-pop-anim');
+                        void display.offsetWidth; // Trigger reflow
+                        display.classList.add('number-pop-anim');
+                        
+                        message.innerText = "اذهب الى الدكتور الان هو دورك";
+                        message.style.opacity = '1';
+                        
+                        // Play Alert Sound if not first load (avoid sound on page refresh)
+                        if (!isFirstLoad) {
+                            playNotificationSound();
+                        }
+                    }
+                }
+                isFirstLoad = false;
+            });
+        }
 
         // --- Doctor Logic ---
         window.doctorLogin = () => {
