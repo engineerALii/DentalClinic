@@ -896,19 +896,6 @@
                         <label class="input-label">اسم العيادة (يظهر في الأعلى)</label>
                         <input type="text" id="settingClinicName" placeholder="مثال: دنتال كير">
                     </div>
-                    <!-- New Logo Upload Section -->
-                    <div class="input-group">
-                        <label class="input-label">شعار العيادة (يظهر في الأعلى)</label>
-                        <div style="display:flex; gap:10px;">
-                            <input type="file" id="logoUploader" accept="image/*" style="display:none;" onchange="uploadLogo(this)">
-                            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('logoUploader').click()">
-                                <i data-lucide="upload" size="16"></i> رفع شعار جديد
-                            </button>
-                            <button class="btn btn-secondary btn-sm" onclick="resetLogo()" style="color:var(--danger); border-color:var(--danger);">
-                                <i data-lucide="rotate-ccw" size="16"></i> استعادة الافتراضي
-                            </button>
-                        </div>
-                    </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                         <div class="input-group">
@@ -1065,71 +1052,51 @@
             setTimeout(() => { banner.classList.remove('show'); }, 5000);
         };
 
-        // --- Clinic Settings Logic (LocalStorage) ---
-        window.saveClinicSettings = () => {
+        // --- Clinic Settings Logic (Global Firestore Sync) ---
+        window.saveClinicSettings = async () => {
             const name = document.getElementById('settingClinicName').value;
             const phone = document.getElementById('settingClinicPhone').value;
             const address = document.getElementById('settingClinicAddress').value;
 
-            if(name) {
-                localStorage.setItem('clinicName', name);
-                document.getElementById('navClinicName').innerText = name;
-            }
-            if(phone) {
-                localStorage.setItem('clinicPhone', phone);
-                document.getElementById('displayPhone').innerText = phone;
-            }
-            if(address) {
-                localStorage.setItem('clinicAddress', address);
-                document.getElementById('displayAddress').innerText = address;
-            }
-            
-            showToast("تم حفظ الإعدادات بنجاح");
-        };
-
-        // NEW: Logo Upload Logic
-        window.uploadLogo = (input) => {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const dataUrl = e.target.result;
-                    // Save to local storage
-                    localStorage.setItem('clinicLogo', dataUrl);
-                    // Update UI immediately
-                    document.getElementById('navbarLogo').src = dataUrl;
-                    showToast("تم تحديث الشعار بنجاح");
-                };
-                reader.readAsDataURL(input.files[0]);
+            try {
+                // Save to Firestore for global sync
+                const settingsRef = doc(db, 'artifacts', 'dental_app', 'public', 'data', 'settings', 'clinic_info');
+                await setDoc(settingsRef, { 
+                    name: name || 'دنتال كير',
+                    phone: phone || '',
+                    address: address || ''
+                }, { merge: true });
+                
+                showToast("تم حفظ الإعدادات وتعميمها بنجاح");
+            } catch (e) {
+                console.error(e);
+                showToast("حدث خطأ في الحفظ", "error");
             }
         };
 
-        window.resetLogo = () => {
-            localStorage.removeItem('clinicLogo');
-            document.getElementById('navbarLogo').src = 'asn.PNG';
-            showToast("تم استعادة الشعار الافتراضي");
-        };
+        function setupSettingsListener() {
+            // Listen for global settings changes
+            const settingsRef = doc(db, 'artifacts', 'dental_app', 'public', 'data', 'settings', 'clinic_info');
+            onSnapshot(settingsRef, (doc) => {
+                if(doc.exists()) {
+                    const data = doc.data();
+                    
+                    // Update Global UI
+                    if(data.name) document.getElementById('navClinicName').innerText = data.name;
+                    if(data.phone) document.getElementById('displayPhone').innerText = data.phone;
+                    if(data.address) document.getElementById('displayAddress').innerText = data.address;
 
-        function loadClinicSettings() {
-            const name = localStorage.getItem('clinicName');
-            const phone = localStorage.getItem('clinicPhone');
-            const address = localStorage.getItem('clinicAddress');
-            const logo = localStorage.getItem('clinicLogo');
-
-            if(name) {
-                document.getElementById('navClinicName').innerText = name;
-                document.getElementById('settingClinicName').value = name;
-            }
-            if(phone) {
-                document.getElementById('displayPhone').innerText = phone;
-                document.getElementById('settingClinicPhone').value = phone;
-            }
-            if(address) {
-                document.getElementById('displayAddress').innerText = address;
-                document.getElementById('settingClinicAddress').value = address;
-            }
-            if(logo) {
-                document.getElementById('navbarLogo').src = logo;
-            }
+                    // Update Admin Inputs (if dashboard loaded)
+                    const nameInput = document.getElementById('settingClinicName');
+                    if(nameInput && document.activeElement !== nameInput) nameInput.value = data.name;
+                    
+                    const phoneInput = document.getElementById('settingClinicPhone');
+                    if(phoneInput && document.activeElement !== phoneInput) phoneInput.value = data.phone;
+                    
+                    const addrInput = document.getElementById('settingClinicAddress');
+                    if(addrInput && document.activeElement !== addrInput) addrInput.value = data.address;
+                }
+            });
         }
 
         // --- Doctor Name Customization Logic ---
@@ -1163,20 +1130,21 @@
             }
         }
 
-        // --- Sound System (Real Files) ---
+        // --- Sound System (Real Files - Reduced Volume) ---
         const clickSound = new Audio('click.wav');
-        const notifSound = new Audio('not.wav');
+        clickSound.volume = 0.3; // Reduced volume
         
-        // Removed introSound logic as requested
-
+        const notifSound = new Audio('not.wav');
+        notifSound.volume = 0.3; // Reduced volume
+        
         window.playClickSound = () => {
             clickSound.currentTime = 0;
-            clickSound.play().catch(e => { console.log("Audio play failed", e); });
+            clickSound.play().catch(e => { });
         };
 
         window.playNotificationSound = () => {
             notifSound.currentTime = 0;
-            notifSound.play().catch(e => { console.log("Audio play failed", e); });
+            notifSound.play().catch(e => { });
         };
         
         window.playSuccessSound = () => {
@@ -1271,9 +1239,10 @@
         signInAnonymously(auth).then(() => {
             console.log("Connected");
             setupRealtimeListeners();
-            setupQueueListener(); // Start listening for queue updates
+            setupQueueListener();
+            setupSettingsListener(); // NEW: Global Settings Listener
             loadSavedDoctorName();
-            loadClinicSettings(); 
+            // loadClinicSettings(); // Removed local storage load in favor of Firestore listener
             initDatePicker(); 
             initSplashScreen(); 
         }).catch((error) => console.error(error));
